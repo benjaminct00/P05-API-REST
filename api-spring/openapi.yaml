@@ -1,0 +1,71 @@
+openapi: 3.0.3
+info:
+  title: API REST Inventario Inteligente (P05)
+  description: Contrato de API REST para integración Angular-Spring Boot-PostgreSQL (Módulo M04).
+  version: 1.0.0
+paths:
+  /api/health:
+    get:
+      summary: Verificación de estado de salud del servicio
+      responses:
+        '200':
+          description: API activa y responde correctamente
+          content:
+            application/json:
+              example:
+                status: "UP"
+                module: "M04"
+
+  /api/productos:
+    get:
+      summary: Consulta el catálogo de productos
+      responses:
+        '200':
+          description: Lista de productos obtenida con éxito
+
+  /api/productos/{id}:
+    get:
+      summary: Consulta detalle de un producto por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Producto encontrado
+        '404':
+          description: Producto no encontrado
+
+  /api/movimientos:
+    get:
+      summary: Lista todos los movimientos de inventario
+      responses:
+        '200':
+          description: Lista de movimientos
+    post:
+      summary: Registrar entrada o salida de inventario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                productoId:
+                  type: integer
+                usuarioId:
+                  type: integer
+                tipo:
+                  type: string
+                  enum: [ENTRADA, SALIDA]
+                cantidad:
+                  type: integer
+      responses:
+        '201':
+          description: Movimiento registrado exitosamente
+        '400':
+          description: Datos inválidos o existencias insuficientes
+        '404':
+          description: Producto o usuario no encontrado
