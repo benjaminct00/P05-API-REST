@@ -10,7 +10,7 @@ import java.util.Map;
 public class HealthController {
 
     @GetMapping("/api/health")
-    public ResponseEntity> salud() {
+    public ResponseEntity<Map<String, String>> salud() {
         return ResponseEntity.ok(Map.of("status", "UP", "module", "M04"));
     }
 }
